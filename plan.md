@@ -18,6 +18,9 @@ what just broke and takes it.
 - **R3** Show a loader until incidents load.
 - **R4** The board refreshes itself every 2 seconds while open.
 - **R5** Times show in the viewer's local time; day before month for EU locales (dd/mm).
+- **R7** Ack asks to confirm before it acks, and the confirm names the incident id (`Ack INC-1234?`), with
+  Ack and Cancel. New incidents stay live at the top; Ack stays on the row. *(Product's decision, 2026-11-12,
+  after the step-1 recording showed a click landing on the row that slid under the pointer.)*
 - **R6** The page names its build: `<meta name="build" content="<git sha>">` in the head and the same sha in the footer.
 
 ## Hooks (pinned — tests and the replay rely on them)
@@ -32,6 +35,9 @@ what just broke and takes it.
 | `ack` | the Ack button in a row |
 | `acked` | the acked mark in a row |
 | `build-sha` | the sha in the footer |
+| `confirm` | the ack confirm; its text names the incident id (R7) |
+| `confirm-ack` | the confirm's Ack button (R7) |
+| `confirm-cancel` | the confirm's Cancel button (R7) |
 
 ## Done
 

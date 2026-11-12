@@ -43,10 +43,49 @@ function markAcked(row, reply) {
   }
 }
 
-async function onAck(event) {
+// R7 (product, after the step-1 recording): Ack asks to confirm, and the confirm names the incident id,
+// so a click that landed on a row that slid under the pointer can be caught before it acks.
+const confirmBox = document.querySelector('[data-testid="confirm"]');
+const confirmText = confirmBox.querySelector('.confirm-text');
+const confirmAck = confirmBox.querySelector('[data-testid="confirm-ack"]');
+const confirmCancel = confirmBox.querySelector('[data-testid="confirm-cancel"]');
+let pending = null; // { id, button }
+
+function askConfirm(id, button) {
+  pending = { id, button };
+  const row = rows.get(id);
+  const what = row?.querySelector('.what')?.textContent ?? '';
+  confirmText.textContent = `Ack ${id}?`;
+  confirmBox.querySelector('.confirm-what').textContent = what;
+  confirmBox.dataset.id = id;
+  confirmBox.hidden = false;
+  confirmAck.focus();
+}
+
+function closeConfirm() {
+  confirmBox.hidden = true;
+  delete confirmBox.dataset.id;
+  pending = null;
+}
+
+confirmCancel.addEventListener('click', closeConfirm);
+confirmBox.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeConfirm(); });
+confirmAck.addEventListener('click', () => {
+  if (!pending) return;
+  const { id, button } = pending;
+  closeConfirm();
+  doAck(id, button);
+});
+
+function onAck(event) {
   const button = event.currentTarget;
   const row = button.closest('[data-testid="incident-row"]');
-  const id = row.dataset.id; // R2: the id of the row the button sits in, never a list position
+  // R2: the id of the row the button sits in at the moment of the click, never a list position
+  askConfirm(row.dataset.id, button);
+}
+
+async function doAck(id, button) {
+  const row = rows.get(id);
   button.disabled = true;
   button.textContent = 'acking…';
   try {
