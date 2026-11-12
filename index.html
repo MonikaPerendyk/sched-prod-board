@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="build" content="fcdc802311db5d2b232017b5922b7ae7429dbf32" />
+    <meta name="build" content="0c0b0f975cee0a8f38f9c9f615556bc8755aca56" />
     <title>sched-prod · incidents</title>
     <link rel="stylesheet" href="style.css" />
     <script type="module" src="app.js"></script>
@@ -18,6 +18,16 @@
       <p data-testid="empty" class="empty" hidden>No incidents tonight.</p>
       <ul data-testid="incident-list" class="list" hidden></ul>
     </main>
-    <footer>sched-prod incident board · build <code data-testid="build-sha">fcdc802311db5d2b232017b5922b7ae7429dbf32</code></footer>
+    <div class="confirm-backdrop" data-testid="confirm" role="alertdialog" aria-modal="true" aria-labelledby="confirm-text" hidden>
+      <div class="confirm">
+        <p id="confirm-text" class="confirm-text"></p>
+        <p class="confirm-what"></p>
+        <div class="confirm-buttons">
+          <button type="button" data-testid="confirm-cancel">Cancel</button>
+          <button type="button" data-testid="confirm-ack" class="primary">Ack</button>
+        </div>
+      </div>
+    </div>
+    <footer>sched-prod incident board · build <code data-testid="build-sha">0c0b0f975cee0a8f38f9c9f615556bc8755aca56</code></footer>
   </body>
 </html>
